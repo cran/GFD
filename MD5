@@ -1,7 +1,7 @@
-791d4f24c827d27f112cfbbf46a0820d *DESCRIPTION
+28ce56d1bf0b2c540ff0d341b04a501c *DESCRIPTION
 399ff828d43286bb5554ea5057ac5fc6 *NAMESPACE
 c87e1717279484144c69d9d22ff42e64 *R/Data.R
-5cbb71b7c21463395a59db11cf0a1255 *R/GFD-function.R
+81e04130f9e1fcc031aaf18099a5b145 *R/GFD-function.R
 9b23a7add720f68b2393cba84c3ff6cf *R/GUI.R
 f6eade70ffd7a95ef9f047909266b855 *R/calculate_statistics.R
 ad987c904c9c696521e5005c5fa1783e *R/hypo_matrix.R
@@ -11,7 +11,7 @@ d32239bcb673463ab874e80d47fae504 *R/share/licenses/GPL-3.txt
 d5a74ca9635b7e2f03e8de3517197f51 *data/curdies.rda
 deb3a7f90529d4dd8edc429e0ab1b9ec *data/pizza.rda
 3d94de8ebf5da1bd9aefee8bf8e00726 *data/startup.rda
-77be73c01a8dd33dd11fb9ee58f27364 *man/GFD.Rd
+0cb3715051109a0f8f4f804e006d5bb4 *man/GFD.Rd
 bd76d84983c511f13ba9acbfdf83996e *man/calculateGUI.Rd
 28d369363ad6011f8acfe61562db04c8 *man/curdies.Rd
 8dda902b1dd86ab0d2c1c2e4030e6f19 *man/pizza.Rd

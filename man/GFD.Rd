@@ -60,6 +60,8 @@ summary(model)
 }
 \references{
 Friedrich, S., Konietschke, F., Pauly, M.(2015). GFD - An R-package
-for the Analysis of General Factorial Designs - along with a Graphical User Interface. Journal of Statistical Software.
+for the Analysis of General Factorial Designs - along with a Graphical User Interface. Submitted to Journal of Statistical Software.
+
+Pauly, M., Brunner, E., Konietschke, F.(2015). Asymptotic Permutation Tests in General Factorial Designs. Journal of the Royal Statistical Society - Series B 77, 461-473.
 }
 
