@@ -8,7 +8,6 @@
 \describe{
   \item{Costs}{price, in thousands of dollars}
   \item{company}{company, a factor with levels "pets", "pizza", "gifts", "shoes" and "bakery"}
-  ...
 }}
 \source{
 \url{http://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/owan/frames/frame.html}

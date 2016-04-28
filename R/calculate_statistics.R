@@ -54,8 +54,8 @@ Stat <- function(data, n, hypo_matrix, nperm, alpha) {
   p_valueWTPS <- 1 - ecdf_WTPS(WTS)
   
   #---------------------- CIs -------------------------------------#
-  CI_lower <- means - sqrt(vars / n) * qt(1 - alpha / 2, df = n)
-  CI_upper <- means + sqrt(vars / n) * qt(1 - alpha / 2, df = n)
+  CI_lower <- means - sqrt(vars) * qt(1 - alpha / 2, df = n)
+  CI_upper <- means + sqrt(vars) * qt(1 - alpha / 2, df = n)
   
   #------------------------- return results -----------------------#
   WTS_out <- c(WTS, df_WTS, p_valueWTS)
@@ -63,6 +63,6 @@ Stat <- function(data, n, hypo_matrix, nperm, alpha) {
   WTPS_out <- p_valueWTPS
   CI <- cbind(CI_lower, CI_upper)
   result <- list(WTS = WTS_out, WTPS = WTPS_out, ATS = ATS_out,
-                 Cov = vars, Mean = means, CI = CI)
+                 Cov = n*vars, Mean = means, CI = CI)
   return(result)
 }

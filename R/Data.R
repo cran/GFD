@@ -6,7 +6,6 @@
 #' \describe{
 #'   \item{Costs}{price, in thousands of dollars}
 #'   \item{company}{company, a factor with levels "pets", "pizza", "gifts", "shoes" and "bakery"}
-#'   ...
 #' }
 #' 
 #' @usage data(startup)

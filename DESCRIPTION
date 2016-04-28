@@ -1,11 +1,11 @@
 Package: GFD
 Type: Package
 Title: Tests for General Factorial Designs
-Version: 0.1.4
-Date: 2016-01-14
+Version: 0.2.2
+Date: 2016-04-27
 Author: Sarah Friedrich, Frank Konietschke, Markus Pauly
 Maintainer: Sarah Friedrich <sarah.friedrich@uni-ulm.de>
-Depends: R (>= 3.2.2), RGtk2 (>= 2.20.31)
+Depends: R (>= 3.2.2)
 Description: Implemented are the Wald-type statistic,
     a permuted version thereof as well as the ANOVA-type statistic
     for general factorial designs, even with non-normal error terms
@@ -13,11 +13,12 @@ Description: Implemented are the Wald-type statistic,
     arbitrary number of factors and nested designs with up to three factors.
 License: GPL-2 | GPL-3
 Imports: plyr (>= 1.8.3), MASS (>= 7.3-43), Matrix (>= 1.2-2), magic
-        (>= 1.5-6), plotrix (>= 3.5-12)
+        (>= 1.5-6), plotrix (>= 3.5-12), methods
 LazyData: TRUE
-Suggests: HSAUR
+Suggests: RGtk2 (>= 2.20.31), HSAUR, knitr, rmarkdown
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr, rmarkdown
 NeedsCompilation: no
-Packaged: 2016-01-14 18:36:54 UTC; sarah
+Packaged: 2016-04-28 06:29:38 UTC; sarah
 Repository: CRAN
-Date/Publication: 2016-01-15 00:36:13
+Date/Publication: 2016-04-28 11:50:01

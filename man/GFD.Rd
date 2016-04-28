@@ -2,10 +2,9 @@
 % Please edit documentation in R/GFD-function.R
 \name{GFD}
 \alias{GFD}
-\title{Tests for general factorial designs}
+\title{Tests for General Factorial Designs}
 \usage{
-GFD(formula, data = NULL, nperm = 10000, alpha = 0.05, plot_CI = FALSE,
-  Title = NULL, line_width = 2)
+GFD(formula, data = NULL, nperm = 10000, alpha = 0.05)
 }
 \arguments{
 \item{formula}{A model \code{\link{formula}} object. The left hand side
@@ -19,14 +18,6 @@ variables of interest. An interaction term must be specified.}
 Wald-type statistic. The default option is 10000.}
 
 \item{alpha}{A number specifying the significance level; the default is 0.05.}
-
-\item{plot_CI}{An indicator for whether a plot of the results should be 
-shown; the default is \code{FALSE}.}
-
-\item{Title}{A title for the plot. The default is \code{NULL}.}
-
-\item{line_width}{A number specifying the \code{lwd}-option for the plots.
-The default is 2.}
 }
 \value{
 A \code{GFD} object containing the following components:
@@ -49,6 +40,12 @@ The package provides the Wald-type statistic, a permuted version
   implemented for both crossed and hierarchically nested designs and allows
   for an arbitrary number of factor combinations as well as different sample
   sizes in the crossed design.
+  The \code{GFD} function returns three p-values: One for the ATS based on an F-quantile and
+  two for the WTS, one based on the \eqn{\chi^2}
+   distribution and one based on the permutation procedure.
+  Since the ATS is only an approximation and the WTS based on the \eqn{\chi^2}
+  distribution is known 
+  to be very liberal for small sample sizes, we recommend to use the WTPS in these situations.
 }
 \examples{
 GFD(weightgain ~ source * type, data = HSAUR::weightgain)
@@ -60,7 +57,7 @@ summary(model)
 }
 \references{
 Friedrich, S., Konietschke, F., Pauly, M.(2015). GFD - An R-package
-for the Analysis of General Factorial Designs - along with a Graphical User Interface. Submitted to Journal of Statistical Software.
+for the Analysis of General Factorial Designs. Submitted to Journal of Statistical Software.
 
 Pauly, M., Brunner, E., Konietschke, F.(2015). Asymptotic Permutation Tests in General Factorial Designs. Journal of the Royal Statistical Society - Series B 77, 461-473.
 }
