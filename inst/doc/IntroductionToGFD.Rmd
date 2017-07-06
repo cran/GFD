@@ -40,7 +40,7 @@ variables of interest on the right hand side. An interaction term must be specif
 
 ```{r}
 set.seed(1234)
-model1 <- GFD(Delivery ~ Crust * Coke * Bread, data = pizza, nperm = 10000, alpha = 0.05)
+model1 <- GFD(Delivery ~ Crust * Coke * Bread, data = pizza, nperm = 1000, alpha = 0.05)
 summary(model1)
 ```
 
@@ -57,12 +57,22 @@ borderline significant when using the ATS.
 
 ## Data example (nested design)
 
-Nested designs can also be analyzed using the `GFD` function. We consider the data set `curdies` from the `GFD` package:
+Nested designs can also be analyzed using the `GFD` function. 
+Note that in nested designs, the levels of the nested factor usually have the same labels
+for all levels of the main factor, i.e., for each level $i=1, ..., a$ of the main factor A
+the nested factor levels are labeled as $j=1, ..., b_i$. If the levels of the nested factor 
+are named uniquely, this has to be specified by setting the parameter `nested.levels.unique`
+to TRUE.
+In this package, only analysis of balanced
+nested designs is possible, that is, the same number of levels of the nested factor for each level
+of the main factor.
+
+We consider the data set `curdies` from the `GFD` package:
 
 ```{r}
 data("curdies")
 set.seed(987)
-nested <- GFD(dugesia ~ season + season:site, data = curdies)
+nested <- GFD(dugesia ~ season + season:site, data = curdies, nested.levels.unique = TRUE)
 summary(nested)
 ```
 

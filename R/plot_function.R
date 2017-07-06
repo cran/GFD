@@ -15,7 +15,7 @@ plotting <- function(plot.object, descr.object, factor, col, pch, legendpos, ...
   } else {
     
     TYPE <- plot.object$Type    
-    Faktor <- factor
+    Faktor <- strsplit(factor, ":")[[1]]
     nadat2 <- plot.object$nadat2
     levels <- plot.object$levels
     mu <- plot.object$mu
@@ -32,12 +32,12 @@ plotting <- function(plot.object, descr.object, factor, col, pch, legendpos, ...
     # plots for interactions
     if (TYPE == "nested") {
       # main effect
-      if (Faktor == nadat2[1]) {
+      if (factor == nadat2[1]) {
         plotrix::plotCI(x = 1:length(levels[[1]]), mu[[1]],
                         li = lower[[1]], ui = upper[[1]], xlim = c(0.8, length(levels[[1]]) + 0.3),
                         col = color[1], pch = pch[1], xaxt = "n", ...)
         axis(side = 1, at = 1:1:length(levels[[1]]), labels = levels[[1]], ...)
-      } else if (Faktor == fac_names[2] && nf == 2) {
+      } else if (factor == fac_names[2] && nf == 2) {
         plotrix::plotCI(x = 1:length(levels[[2]]), mean_out,
                         li = CI[, 1], ui = CI[, 2], xlim = c(0.8, length(levels[[2]]) + 0.3),
                         ylim = c(min(CI) - 1, max(CI) + 1), col = color[1], pch = pch[1], xaxt = "n", ...)
@@ -47,7 +47,7 @@ plotting <- function(plot.object, descr.object, factor, col, pch, legendpos, ...
         cc <- length(levels[[2]]) + aa
         ss <- seq(from = - aa, to = cc, by = bb)
         axis(side = 3, at = ss[2:(length(ss) - 1)], labels = levels[[1]], ...)
-      } else if(Faktor %in% fac_names && nf == 3 && !(Faktor == nadat2[1])) {
+      } else if(factor %in% fac_names && nf == 3 && !(factor == nadat2[1])) {
         error <- "For three-way nested design, only the main effect
     can be plotted."
       }}
@@ -56,118 +56,120 @@ plotting <- function(plot.object, descr.object, factor, col, pch, legendpos, ...
     if (TYPE == "crossed") {
       # plot of main effects
       for (i in 1:nf) {
-        if (Faktor == nadat2[i]) {
+        if (factor == nadat2[i]) {
           plotrix::plotCI(x = 1:length(levels[[i]]), mu[[i]],
                           li = lower[[i]], ui = upper[[i]], xlim = c(0.8, length(levels[[i]]) + 0.3),
                           col = color[1], pch = pch[1], xaxt = "n", ...)
           axis(side = 1, at = 1:1:length(levels[[i]]), labels = levels[[i]], ...)
-        }}
+        }
+      }
       
-      # two-fold interactions for three- and higher-way layout
+      # two-way plots
       fac_names_twofold <- plot.object$fac_names_original[ - (1:nf)]
       fac_names_twofold <- fac_names_twofold[1:choose(nf, 2)]
       
-      if (Faktor %in% fac_names_twofold) {
-        nmu <- list()
-        nsigma <- list()
-        nn_groups <- list()
-        nupper <- list()
-        nlower <- list()
-        new_levels <- list()
+      if (factor %in% fac_names_twofold) {
         dat2 <- plot.object$dat2
         fl <- plot.object$fl
         alpha <- plot.object$alpha
         
-        counter <- 1
-        for (i in 2:nf) {
-          for (j in (i + 1):(nf + 1)) {
-            nmu[[counter]] <- matrix(by(dat2[, 1], dat2[, c(i, j)], mean),
-                                     nrow = fl[i - 1])
-            nsigma[[counter]] <- matrix(by(dat2[, 1], dat2[, c(i, j)], var),
-                                        nrow = fl[i - 1])
-            nn_groups[[counter]] <- matrix(by(dat2[, 1], dat2[, c(i, j)],
-                                              length), nrow = fl[i - 1])
-            nlower[[counter]] <- nmu[[counter]] -
-              sqrt(nsigma[[counter]] / nn_groups[[counter]]) *
-              qt(1 - alpha / 2, df = nn_groups[[counter]])
-            nupper[[counter]] <- nmu[[counter]] +
-              sqrt(nsigma[[counter]] / nn_groups[[counter]]) *
-              qt(1 - alpha / 2, df = nn_groups[[counter]])
-            new_levels[[counter]] <- list(levels[[i - 1]], levels[[j - 1]])
-            counter <- counter + 1
-          }
-        }
-        names(nmu) <- fac_names_twofold
-        names(nupper) <- fac_names_twofold
-        names(nlower) <- fac_names_twofold
-        place <- which(Faktor == fac_names_twofold)
-        xxx <- rep(NA, nf)
-        for (ii in 1:nf) {
-          xxx[ii] <- grepl(plot.object$fac_names_original[ii], Faktor, fixed = TRUE)
-        }
-        plotrix::plotCI(x = 1:length(new_levels[[place]][[2]]),
-                        nmu[[Faktor]][1, ],
-                        li = nlower[[Faktor]][1, ],
-                        ui = nupper[[Faktor]][1, ], xlim = c(0.8, length(new_levels[[place]][[2]]) + 0.3),
-                        ylim = c(min(nlower[[Faktor]]) - 1, max(nupper[[Faktor]]) + 1),
+        fak1 <- Faktor[1]
+        fak2 <- Faktor[2]
+        posi <- which(fac_names_original[1:nf] == fak1)
+        posi2 <- which(fac_names_original[1:nf] == fak2)
+        
+        nmu <- matrix(by(dat2[, 1], dat2[, c(fak1, fak2)], mean),
+                      nrow = fl[posi])
+        nsigma <- matrix(by(dat2[, 1], dat2[, c(fak1, fak2)], var),
+                         nrow = fl[posi])
+        nn_groups <- matrix(by(dat2[, 1], dat2[, c(fak1, fak2)],
+                               length), nrow = fl[posi])
+        nlower <- nmu - sqrt(nsigma/ nn_groups) *
+          qt(1 - alpha / 2, df = nn_groups)
+        nupper <- nmu + sqrt(nsigma / nn_groups) *
+          qt(1 - alpha / 2, df = nn_groups)
+        
+        
+        plotrix::plotCI(x = 1:dim(nmu)[2],
+                        nmu[1, ],
+                        li = nlower[1, ],
+                        ui = nupper[1, ], xlim = c(0.8, (dim(nmu)[2] + 0.3)),
+                        ylim = c(min(nlower) - 1, max(nupper) + 1),
                         col = color[1], pch = pch[1], xaxt = "n", ...)
-        axis(side = 1, at = 1:1:length(new_levels[[place]][[2]]),
-             labels = new_levels[[place]][[2]], ...)
-        for (i in 2:length(new_levels[[place]][[1]])) {
-            plotrix::plotCI(x = ((1:length(new_levels[[place]][[2]])) + 0.07 * i),
-                          nmu[[Faktor]][i, ], li = nlower[[Faktor]][i, ],
-                          ui = nupper[[Faktor]][i, ], add = TRUE, col = color[i], pch = pch[1], ...)
-            
+        axis(side = 1, at = (1:1:dim(nmu)[2]),
+             labels = unlist(levels[posi2]), ...)
+        for (i in 2:dim(nmu)[1]) {
+          plotrix::plotCI(x = ((1:dim(nmu)[2]) + 0.07 * i),
+                          nmu[i, ], li = nlower[i, ],
+                          ui = nupper[i, ], add = TRUE, col = color[i], pch = pch[1], ...)
+          
         }
         legend(legendpos, 
-               legend = new_levels[[place]][[1]],
-               col = color[1:length(new_levels[[place]][[1]])],
+               legend = unlist(levels[posi]),
+               col = color[1:dim(nmu)[1]],
                seg.len = 0.5, 
-               lty = rep(1, length(new_levels[[place]][[1]])))
-      } else if (nf == 3 && Faktor == fac_names[length(fac_names)]) {
-        # three-way
-        Var1 = Var2 = Var3 = CIl = CIu = NULL
-        for_plots <- cbind(lev_names, mean_out, CI)
-        group <- list()
-        for (i in 1:length(levels[[1]])) {
-          group[[i]] <- subset(for_plots, Var1 == as.factor(levels[[1]])[i],
-                               select = c(Var2, Var3, mean_out, CIl, CIu))
+               lty = rep(1, dim(nmu)[1]))
+        
+      } else if (length(Faktor) == 3) {
+        # three-way plots
+        
+        fak1 <- Faktor[1]
+        fak2 <- Faktor[2]
+        fak3 <- Faktor[3]
+        
+        posi1 <- which(fac_names_original[1:nf] == fak1)
+        posi2 <- which(fac_names_original[1:nf] == fak2)
+        posi3 <- which(fac_names_original[1:nf] == fak3)
+        
+        if (nf == 3){          
+          mu3 <- descr.object$Means
+          lower3 <- descr.object[, 7]
+          upper3 <- descr.object[, 8]
+        } else {
+          # c(t(...)) to get correct order of factors, analogous to case above
+          mu3 <- c(t(matrix(by(dat2[, 1], dat2[, c(fak1, fak3, fak2)], mean),
+                            nrow = fl[posi1])))
+          nsigma <- c(t(matrix(by(dat2[, 1], dat2[, c(fak1, fak3, fak2)], var),
+                               nrow = fl[posi1])))
+          nn_groups <- c(t(matrix(by(dat2[, 1], dat2[, c(fak1, fak3, fak2)],
+                                     length), nrow = fl[posi1])))
+          lower3 <- mu3 - sqrt(nsigma/ nn_groups) *
+            qt(1 - alpha / 2, df = nn_groups)
+          upper3 <- mu3 + sqrt(nsigma / nn_groups) *
+            qt(1 - alpha / 2, df = nn_groups)          
         }
-        next_group <- list()
-        new_group <- list()
-        for (j in 1:length(group)) {
-          for (l in 1:length(levels[[2]])) {
-            next_group[[l]] <- subset(group[[j]],
-                                      Var2 == as.factor(levels[[2]])[l],
-                                      select = c(mean_out, CIl, CIu))
-          }
-          new_group[[j]] <- next_group
-        }
-        counter <- 1
+        
         delta <- seq(from = 0, by = 0.05,
-                     length = length(levels[[1]]) * length(levels[[2]]) + 1)
-        plotrix::plotCI(x = 1:length(levels[[3]]), new_group[[1]][[1]][, 1],
-                        li = new_group[[1]][[1]][, 2],
-                        ui = new_group[[1]][[1]][, 3], ylim = c(min(CI) - 1, max(CI) + 1),
-                        xlim = c(0.8, length(levels[[3]]) + 0.3),
+                     length = (fl[posi1] * fl[posi2] + 1))
+        
+        plotrix::plotCI(x = 1:fl[posi3],
+                        mu3[1:fl[posi3]],
+                        li = lower3[1:fl[posi3]],
+                        ui = upper3[1:fl[posi3]], xlim = c(0.8, (fl[posi3] + 0.3)),
+                        ylim = c(min(lower3) - 1, max(upper3) + 1),
                         col = color[1], pch = pch[1], xaxt = "n", ...)
-        axis(side = 1, at = 1:1:length(levels[[3]]), labels = levels[[3]], ...)
-        for (j in 1:length(levels[[1]])) {
-          for (i in 1:length(levels[[2]])) {
-            plotrix::plotCI(x = ((1:length(levels[[3]])) + delta[counter]),
-                            new_group[[j]][[i]][, 1], li = new_group[[j]][[i]][, 2],
-                            ui = new_group[[j]][[i]][, 3], add = TRUE, col = color[i], pch = pch[j], ...)
-            counter <- counter + 1
-          }}
+        axis(side = 1, at = 1:1:fl[posi3], labels = levels[[posi3]], ...)
+        
+        color2 <- rep(color[1:fl[posi2]], fl[posi1])
+        pch2 <- rep(pch[1:fl[posi1]], each = fl[posi2])
+        
+        for (j in 1:(fl[posi1]*fl[posi2]-1)) {
+          start <- fl[posi3]*j+1
+          stopp <- fl[posi3]*(j+1)
+          plotrix::plotCI(x = ((1:fl[posi3]) + delta[j+1]),
+                          mu3[start:stopp], li = lower3[start:stopp],
+                          ui = upper3[start:stopp], add = TRUE, col = color2[j+1], pch = pch2[j+1], ...)
+        }
         legend(legendpos, 
-               legend = c(fac_names_original[[1]], levels[[1]], fac_names_original[[2]], levels[[2]]), box.lty = 0,
-               col = c(0, rep(1, length(levels[[1]])), 0, color[1:length(levels[[2]])]),
-               pch = c(NA, pch[1:length(levels[[1]])], NA, rep(NA, length(levels[[2]]))),
+               legend = c(fac_names_original[[posi1]], levels[[posi1]], fac_names_original[[posi2]], levels[[posi2]]), box.lty = 0,
+               col = c(0, rep(1, fl[posi1]), 0, color[1:fl[posi2]]),
+               pch = c(NA, pch[1:fl[posi1]], NA, rep(NA, fl[posi2])),
                seg.len = 0.5,
-               lty = c(NA, rep(NA, length(levels[[1]])), NA, rep(1, length(levels[[2]]))))
-      } else if (Faktor %in% fac_names && nf >= 4) {
-        error <- "Higher-way interactions cannot be plotted!"
+               lty = c(NA, rep(NA, fl[posi1]), NA, rep(1, fl[posi2])))
+        
+      } else if (length(Faktor) >= 4) {
+        stop("Higher-way interactions cannot be plotted!")
       }
-    }   
+    }
   }
 }

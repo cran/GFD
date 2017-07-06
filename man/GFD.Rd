@@ -4,7 +4,8 @@
 \alias{GFD}
 \title{Tests for General Factorial Designs}
 \usage{
-GFD(formula, data = NULL, nperm = 10000, alpha = 0.05)
+GFD(formula, data = NULL, nperm = 10000, alpha = 0.05,
+  nested.levels.unique = FALSE)
 }
 \arguments{
 \item{formula}{A model \code{\link{formula}} object. The left hand side
@@ -18,6 +19,10 @@ variables of interest. An interaction term must be specified.}
 Wald-type statistic. The default option is 10000.}
 
 \item{alpha}{A number specifying the significance level; the default is 0.05.}
+
+\item{nested.levels.unique}{A logical specifying whether the levels of the nested factor(s)
+are labeled uniquely or not. Default is FALSE, i.e., the levels of the nested 
+factor are the same for each level of the main factor.}
 }
 \value{
 A \code{GFD} object containing the following components:
@@ -48,7 +53,7 @@ The package provides the Wald-type statistic, a permuted version
   to be very liberal for small sample sizes, we recommend to use the WTPS in these situations.
 }
 \examples{
-GFD(weightgain ~ source * type, data = HSAUR::weightgain)
+GFD(weightgain ~ source * type, data = HSAUR::weightgain, nperm = 1000)
 
 data(startup)
 model <- GFD(Costs ~ company, data = startup)

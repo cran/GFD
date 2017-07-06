@@ -12,7 +12,10 @@
 #' @param nperm The number of permutations used for calculating the permuted 
 #'   Wald-type statistic. The default option is 10000.
 #' @param alpha A number specifying the significance level; the default is 0.05.
-#'   
+#' @param nested.levels.unique A logical specifying whether the levels of the nested factor(s)
+#'   are labeled uniquely or not. Default is FALSE, i.e., the levels of the nested 
+#'   factor are the same for each level of the main factor.
+#' 
 #' @details The package provides the Wald-type statistic, a permuted version
 #'   thereof as well as the ANOVA-type statistic for general factorial designs,
 #'   even with non-normal error terms and/or heteroscedastic variances. It is
@@ -36,7 +39,7 @@
 #'  \item{ATS}{The value of the ATS, degrees of freedom of the central F distribution and the corresponding p-value.}
 #' 
 #' @examples
-#' GFD(weightgain ~ source * type, data = HSAUR::weightgain)
+#' GFD(weightgain ~ source * type, data = HSAUR::weightgain, nperm = 1000)
 #' 
 #' data(startup)
 #' model <- GFD(Costs ~ company, data = startup)
@@ -55,7 +58,7 @@
 #' @export
 
 GFD <- function(formula, data = NULL, nperm = 10000,
-                alpha = 0.05){
+                alpha = 0.05, nested.levels.unique = FALSE){
   
   input_list <- list(formula = formula, data = data,
                      nperm = nperm, alpha = alpha)
@@ -126,10 +129,7 @@ GFD <- function(formula, data = NULL, nperm = 10000,
     perm_names <- t(attr(terms(formula), "factors")[-1, ])
     n <- plyr::ddply(dat2, nadat2, plyr::summarise, Measure = length(subject),
                      .drop = F)$Measure
-    if (length(fac_names) == nf) {
-      # delete factorcombinations which don't exist
-      n <- n[n != 0]
-    }
+    
     # mixture of nested and crossed designs is not possible
     if (length(fac_names) != nf && 2 %in% nr_hypo) {
       stop("A model involving both nested and crossed factors is
@@ -140,63 +140,69 @@ GFD <- function(formula, data = NULL, nperm = 10000,
       stop("Four- and higher way nested designs are
            not implemented!")
     }
-    # no factor combinations with less than 2 observations
-    if (0 %in% n || 1 %in% n) {
-      stop("There is at least one factor-level combination
-           with less than 2 observations!")
-    }
-    # correct labeling of factors in nested design
-    if (length(fac_names) == nf) {
-      if (nf == 2) {
-        if (all(levels(as.factor(dat2[, 3][dat2[, 2] == levels[[1]][1]]))
-                == levels(as.factor(dat2[, 3][dat2[, 2] == levels[[1]][2]])))) {
-          stop("The levels of the nested factor must be
-               named without repetitions!")
-        }
-      } else if (nf == 3) {
-        if (all(levels(as.factor(dat2[, 3][dat2[, 2] == levels[[1]][1]]))
-                == levels(as.factor(dat2[, 3][dat2[, 2] == levels[[1]][2]]))) ||
-              all(levels(as.factor(dat2[, 4][dat2[, 3] == levels[[2]][1]]))
-                  == levels(as.factor(dat2[, 4][dat2[, 3] == levels[[2]][fl[2] / fl[1] + 1]])))) {
-          stop("The levels of the nested factor must be
-                 named without repetitions!")
-        }
-      }
-    }
+   
     if (length(fac_names) == nf) {
       # nested
       TYPE <- "nested"
+      
+      # if nested factor is named uniquely
+      if (nested.levels.unique){
+        # delete factorcombinations which don't exist
+        n <- n[n != 0]
+        # create correct level combinations
+        blev <- list()
+        lev_names <- list()
+        for (ii in 1:length(levels[[1]])) {
+          blev[[ii]] <- levels(as.factor(dat[, 3][dat[, 2] == levels[[1]][ii]]))
+          lev_names[[ii]] <- rep(levels[[1]][ii], length(blev[[ii]]))
+        }
+        if (nf == 2) {
+          lev_names <- as.factor(unlist(lev_names))
+          blev <- as.factor(unlist(blev))
+          lev_names <- cbind.data.frame(lev_names, blev)
+        } else {
+          lev_names <- lapply(lev_names, rep,
+                              length(levels[[3]]) / length(levels[[2]]))
+          lev_names <- lapply(lev_names, sort)
+          lev_names <- as.factor(unlist(lev_names))
+          blev <- lapply(blev, rep, length(levels[[3]]) / length(levels[[2]]))
+          blev <- lapply(blev, sort)
+          blev <- as.factor(unlist(blev))
+          lev_names <- cbind.data.frame(lev_names, blev, as.factor(levels[[3]]))
+        }
+        # correct for wrong counting of nested factors
+        if (nf == 2) {
+          fl[2] <- fl[2] / fl[1]
+        } else if (nf == 3) {
+          fl[3] <- fl[3] / fl[2]
+          fl[2] <- fl[2] / fl[1]
+        }
+      }
       hypo_matrices <- HN(fl)
-      # create correct level combinations
-      blev <- list()
-      lev_names <- list()
-      for (ii in 1:length(levels[[1]])) {
-        blev[[ii]] <- levels(as.factor(dat[, 3][dat[, 2] == levels[[1]][ii]]))
-        lev_names[[ii]] <- rep(levels[[1]][ii], length(blev[[ii]]))
-      }
-      if (nf == 2) {
-        lev_names <- as.factor(unlist(lev_names))
-        blev <- as.factor(unlist(blev))
-        lev_names <- cbind.data.frame(lev_names, blev)
-      } else {
-        lev_names <- lapply(lev_names, rep,
-                            length(levels[[3]]) / length(levels[[2]]))
-        lev_names <- lapply(lev_names, sort)
-        lev_names <- as.factor(unlist(lev_names))
-        blev <- lapply(blev, rep, length(levels[[3]]) / length(levels[[2]]))
-        blev <- lapply(blev, sort)
-        blev <- as.factor(unlist(blev))
-        lev_names <- cbind.data.frame(lev_names, blev, as.factor(levels[[3]]))
-      }
+      
     } else {
       # crossed
       TYPE <- "crossed"
       hypo_matrices <- HC(fl, perm_names, fac_names)[[1]]
       fac_names <- HC(fl, perm_names, fac_names)[[2]]
     }
+    
     if (length(fac_names) != length(hypo_matrices)) {
       stop("Something is wrong: Perhaps a missing interaction term in formula?")
     }
+    
+    # nested design with levels labeled uniquely, but nested.levels.unique = F?
+    if (TYPE == "nested" & 0 %in% n & nested.levels.unique == FALSE) {
+      stop("The levels of the nested factor are probably labeled uniquely,
+           but nested.levels.unique is not set to TRUE.")
+    }
+    
+    # no factor combinations with less than 2 observations
+    if (0 %in% n || 1 %in% n) {
+      stop("There is at least one factor-level combination
+           with less than 2 observations!")
+    }
+    
     WTS_out <- matrix(NA, ncol = 3, nrow = length(hypo_matrices))
     ATS_out <- matrix(NA, ncol = 4, nrow = length(hypo_matrices))
     WTPS_out <- rep(NA, length(hypo_matrices))

@@ -7,13 +7,13 @@ head(pizza)
 
 ## ------------------------------------------------------------------------
 set.seed(1234)
-model1 <- GFD(Delivery ~ Crust * Coke * Bread, data = pizza, nperm = 10000, alpha = 0.05)
+model1 <- GFD(Delivery ~ Crust * Coke * Bread, data = pizza, nperm = 1000, alpha = 0.05)
 summary(model1)
 
 ## ------------------------------------------------------------------------
 data("curdies")
 set.seed(987)
-nested <- GFD(dugesia ~ season + season:site, data = curdies)
+nested <- GFD(dugesia ~ season + season:site, data = curdies, nested.levels.unique = TRUE)
 summary(nested)
 
 ## ------------------------------------------------------------------------
