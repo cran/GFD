@@ -13,8 +13,9 @@
 #'  
 #' @export
 
-calculateGUI <- function() {
+calculateGUI <- function(){
   
+  #require("RGtk2", quietly = TRUE)
   requireNamespace("RGtk2", quietly = TRUE)
   if(!("package:RGtk2" %in% search())){attachNamespace("RGtk2")}
   ## Run on "Load"
@@ -300,7 +301,7 @@ calculateGUI <- function() {
   buttonCancel <- RGtk2::gtkButtonNewFromStock("gtk-close")
   RGtk2::gSignalConnect(buttonCancel, "clicked", window$destroy)
   the.buttons$packStart(buttonCancel, fill=F)
+
+
 }
-
-
 

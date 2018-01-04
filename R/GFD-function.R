@@ -15,6 +15,9 @@
 #' @param nested.levels.unique A logical specifying whether the levels of the nested factor(s)
 #'   are labeled uniquely or not. Default is FALSE, i.e., the levels of the nested 
 #'   factor are the same for each level of the main factor.
+#' @param CI.method Method for calculating the confidence intervals. Default is 't-quantile' for
+#'    CIs based on the corresponding t-quantile. Additionally, the quantile of the permutation 
+#'    distribution can be used ('perm').
 #' 
 #' @details The package provides the Wald-type statistic, a permuted version
 #'   thereof as well as the ANOVA-type statistic for general factorial designs,
@@ -35,31 +38,39 @@
 #'   level combinations. Displayed are the number of individuals per factor
 #'   level combination, the mean, variance and 100*(1-alpha)\% confidence
 #'   intervals.}
-#'  \item{WTS}{The value of the WTS along with degrees of freedom of the central chi-square distribution and p-value, as well as the p-value of the permutation procedure.}
-#'  \item{ATS}{The value of the ATS, degrees of freedom of the central F distribution and the corresponding p-value.}
+#'  \item{WTS}{The value of the WTS along with degrees of freedom of the central chi-square distribution
+#'   and p-value, as well as the p-value of the permutation procedure.}
+#'  \item{ATS}{The value of the ATS, degrees of freedom of the central F distribution and 
+#'  the corresponding p-value.}
 #' 
 #' @examples
 #' GFD(weightgain ~ source * type, data = HSAUR::weightgain, nperm = 1000)
 #' 
 #' data(startup)
-#' model <- GFD(Costs ~ company, data = startup)
+#' model <- GFD(Costs ~ company, data = startup, CI.method = "perm")
 #' summary(model)
 #' 
 #' @references Friedrich, S., Konietschke, F., Pauly, M.(2017). GFD - An R-package
-#' for the Analysis of General Factorial Designs. Journal of Statistical Software, Code Snippets 79(1), 1--18, doi:10.18637/jss.v079.c01.
+#' for the Analysis of General Factorial Designs. Journal of Statistical Software, Code Snippets 79(1), 
+#' 1--18, doi:10.18637/jss.v079.c01.
 #' 
 #' 
-#' Pauly, M., Brunner, E., Konietschke, F.(2015). Asymptotic Permutation Tests in General Factorial Designs. Journal of the Royal Statistical Society - Series B 77, 461-473.
+#' Pauly, M., Brunner, E., Konietschke, F.(2015). Asymptotic Permutation Tests in General Factorial Designs. 
+#' Journal of the Royal Statistical Society - Series B 77, 461-473.
 #' 
 #' @importFrom graphics axis legend par plot title
-#' @importFrom stats ecdf formula model.frame pchisq pf qt terms var
+#' @importFrom stats ecdf formula model.frame pchisq pf qt terms var quantile
 #' @importFrom utils read.table
 #' @importFrom methods hasArg
 #' 
 #' @export
 
 GFD <- function(formula, data = NULL, nperm = 10000,
-                alpha = 0.05, nested.levels.unique = FALSE){
+                alpha = 0.05, nested.levels.unique = FALSE, CI.method = "t-quantile"){
+  
+  if (!(CI.method %in% c("t-quantile", "perm"))){
+    stop("CI.method must be one of 't-quantile' or 'perm'!")
+  }
   
   input_list <- list(formula = formula, data = data,
                      nperm = nperm, alpha = alpha)
@@ -95,7 +106,7 @@ GFD <- function(formula, data = NULL, nperm = 10000,
     rownames(WTS_out) <- fac_names
     rownames(ATS_out) <- fac_names
     names(WTPS_out) <- fac_names
-    results <- Stat(data = response, n = n, hypo, nperm = nperm, alpha)
+    results <- Stat(data = response, n = n, hypo, nperm = nperm, alpha, CI.method)
     WTS_out <- results$WTS
     ATS_out <- results$ATS
     WTPS_out <- results$WTPS
@@ -214,7 +225,7 @@ GFD <- function(formula, data = NULL, nperm = 10000,
     # calculate results
     for (i in 1:length(hypo_matrices)) {
       results <- Stat(data = response, n = n, hypo_matrices[[i]],
-                      nperm = nperm, alpha)
+                      nperm = nperm, alpha, CI.method)
       WTS_out[i, ] <- results$WTS
       ATS_out[i, ] <- results$ATS
       WTPS_out[i] <- results$WTPS

@@ -1,5 +1,5 @@
 # Function for calculating the means, test statistic, permutation,... ------------
-Stat <- function(data, n, hypo_matrix, nperm, alpha) {
+Stat <- function(data, n, hypo_matrix, nperm, alpha, CI.method) {
   H <- hypo_matrix
   x <- data
   N <- sum(n)
@@ -13,7 +13,7 @@ Stat <- function(data, n, hypo_matrix, nperm, alpha) {
   # -----------------------------------------------------#
   means <- A %*% x
   x2 <- x ^ 2
-  vars <- (A1 %*% x2 - n * means ^ 2) / (n * (n - 1))
+  vars <- (A1 %*% x2 - n * means ^ 2) / (n * (n - 1)) # = var(x)/n
   if (0 %in% vars) {
     stop("The variance in some group equals 0!")
   }
@@ -52,10 +52,16 @@ Stat <- function(data, n, hypo_matrix, nperm, alpha) {
   p_valueATS <- 1 - pf(abs(ATS), df1 = df_ATS1, df2 = df_ATS2)
   ecdf_WTPS <- ecdf(WTPS)
   p_valueWTPS <- 1 - ecdf_WTPS(WTS)
+  quant_WTPS <- quantile(ecdf_WTPS, alpha)
   
   #---------------------- CIs -------------------------------------#
-  CI_lower <- means - sqrt(vars) * qt(1 - alpha / 2, df = n)
-  CI_upper <- means + sqrt(vars) * qt(1 - alpha / 2, df = n)
+  if(CI.method == "t-quantile"){
+    CI_lower <- means - sqrt(vars) * qt(1 - alpha / 2, df = n-1)
+    CI_upper <- means + sqrt(vars) * qt(1 - alpha / 2, df = n-1)
+  } else if (CI.method == "perm"){
+    CI_lower <- means - sqrt(vars) * quant_WTPS
+    CI_upper <- means + sqrt(vars) * quant_WTPS
+  }
   
   #------------------------- return results -----------------------#
   WTS_out <- c(WTS, df_WTS, p_valueWTS)

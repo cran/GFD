@@ -37,6 +37,7 @@ variables of interest on the right hand side. An interaction term must be specif
 * `data`: A data.frame, list or environment containing the variables in `formula`.
 * `nperm`: The number of permutations. Default value is 10000.
 * `alpha`: The significance level, default is 0.05.
+* `CI.method`: Specifies the method used for calculating the CIs, either `t-quantile` (default) or `perm`. 
 
 ```{r}
 set.seed(1234)
@@ -45,7 +46,7 @@ summary(model1)
 ```
 
 The output consists of three parts: `model1$Descriptive` gives an overview of the descriptive statistics: The number of observations, 
-mean and variance as well as confidence intervals (based on quantiles of the t-distribution) are displayed for each factor level combination.
+mean and variance as well as confidence intervals (based on quantiles of the t-distribution or the permutation distribution) are displayed for each factor level combination.
 `model1$WTS` contains the results for the Wald-type test: The test statistic, degree of freedom and p-values based on the asymptotic $\chi^2$ distribution
 and the permutation procedure, respectively, are displayed. Note that the $\chi^2$ approximation is very liberal for small sample sizes and therefore the WTPS is 
 recommended for such situations. Finally, `model1$ATS` contains the corresponding results based on the ATS. This test statistic tends to rather

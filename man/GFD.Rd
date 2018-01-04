@@ -5,7 +5,7 @@
 \title{Tests for General Factorial Designs}
 \usage{
 GFD(formula, data = NULL, nperm = 10000, alpha = 0.05,
-  nested.levels.unique = FALSE)
+  nested.levels.unique = FALSE, CI.method = "t-quantile")
 }
 \arguments{
 \item{formula}{A model \code{\link{formula}} object. The left hand side
@@ -23,6 +23,10 @@ Wald-type statistic. The default option is 10000.}
 \item{nested.levels.unique}{A logical specifying whether the levels of the nested factor(s)
 are labeled uniquely or not. Default is FALSE, i.e., the levels of the nested 
 factor are the same for each level of the main factor.}
+
+\item{CI.method}{Method for calculating the confidence intervals. Default is 't-quantile' for
+CIs based on the corresponding t-quantile. Additionally, the quantile of the permutation 
+distribution can be used ('perm').}
 }
 \value{
 A \code{GFD} object containing the following components:
@@ -30,8 +34,10 @@ A \code{GFD} object containing the following components:
   level combinations. Displayed are the number of individuals per factor
   level combination, the mean, variance and 100*(1-alpha)\% confidence
   intervals.}
- \item{WTS}{The value of the WTS along with degrees of freedom of the central chi-square distribution and p-value, as well as the p-value of the permutation procedure.}
- \item{ATS}{The value of the ATS, degrees of freedom of the central F distribution and the corresponding p-value.}
+ \item{WTS}{The value of the WTS along with degrees of freedom of the central chi-square distribution
+  and p-value, as well as the p-value of the permutation procedure.}
+ \item{ATS}{The value of the ATS, degrees of freedom of the central F distribution and 
+ the corresponding p-value.}
 }
 \description{
 The GFD function calculates the Wald-type statistic (WTS), the ANOVA-type 
@@ -56,15 +62,17 @@ The package provides the Wald-type statistic, a permuted version
 GFD(weightgain ~ source * type, data = HSAUR::weightgain, nperm = 1000)
 
 data(startup)
-model <- GFD(Costs ~ company, data = startup)
+model <- GFD(Costs ~ company, data = startup, CI.method = "perm")
 summary(model)
 
 }
 \references{
 Friedrich, S., Konietschke, F., Pauly, M.(2017). GFD - An R-package
-for the Analysis of General Factorial Designs. Journal of Statistical Software, Code Snippets 79(1), 1--18, doi:10.18637/jss.v079.c01.
+for the Analysis of General Factorial Designs. Journal of Statistical Software, Code Snippets 79(1), 
+1--18, doi:10.18637/jss.v079.c01.
 
 
-Pauly, M., Brunner, E., Konietschke, F.(2015). Asymptotic Permutation Tests in General Factorial Designs. Journal of the Royal Statistical Society - Series B 77, 461-473.
+Pauly, M., Brunner, E., Konietschke, F.(2015). Asymptotic Permutation Tests in General Factorial Designs. 
+Journal of the Royal Statistical Society - Series B 77, 461-473.
 }
 
