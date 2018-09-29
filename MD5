@@ -1,4 +1,4 @@
-d205508f9f03160beb00f578c576670f *DESCRIPTION
+e5e860bcb5c191c92b4fbcdde1509136 *DESCRIPTION
 e331b5772d9e63a0e2369e419d2f5084 *NAMESPACE
 a5b5b3a0c758b8980981fc804ba64adf *R/Data.R
 81c0a15245631e778c8ec384c71f55ad *R/GFD-function.R
@@ -9,7 +9,7 @@ a4a7708dbe258476b224be5abfb6d538 *R/hypo_matrix.R
 eb723b61539feef013de476e68b5c50a *R/share/licenses/GPL-2.txt
 d32239bcb673463ab874e80d47fae504 *R/share/licenses/GPL-3.txt
 42aec8ae8ed5d3ade39563240541034a *R/utility_functions.R
-3467532bfdda75f2020cbe223f47e9d1 *build/vignette.rds
+63db4ef0255b4ccc5e0a783bebc1ad6b *build/vignette.rds
 d5a74ca9635b7e2f03e8de3517197f51 *data/curdies.rda
 deb3a7f90529d4dd8edc429e0ab1b9ec *data/pizza.rda
 3d94de8ebf5da1bd9aefee8bf8e00726 *data/startup.rda
@@ -17,10 +17,11 @@ ebce9bb3f8f73eb358e6d617ffcfed24 *inst/CITATION
 c94d583f9c6b688d7daf309840cac0e1 *inst/NEWS.md
 ff747050501b1393875b9fe6cee14999 *inst/doc/IntroductionToGFD.R
 f34e61532ffaf5954608ed4eefb31deb *inst/doc/IntroductionToGFD.Rmd
-633253daf122877a65c756608ef4b4a2 *inst/doc/IntroductionToGFD.html
+0d395e637991f608aae245e18cefa58f *inst/doc/IntroductionToGFD.html
 157314ffe07c6a766c66d12ff19bc14c *man/GFD.Rd
 40b3218fe3a3b9994e7792d92a0a6ee7 *man/calculateGUI.Rd
 28d369363ad6011f8acfe61562db04c8 *man/curdies.Rd
 8dda902b1dd86ab0d2c1c2e4030e6f19 *man/pizza.Rd
 9a8e182557de3ca53e058c4d185738f0 *man/startup.Rd
 f34e61532ffaf5954608ed4eefb31deb *vignettes/IntroductionToGFD.Rmd
+459962b88db47164b22659de5e2afbfb *vignettes/IntroductionToGFD.md
