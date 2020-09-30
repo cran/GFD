@@ -51,7 +51,7 @@ Stat <- function(data, n, hypo_matrix, nperm, alpha, CI.method) {
   p_valueWTS <- 1 - pchisq(abs(WTS), df = df_WTS)
   p_valueATS <- 1 - pf(abs(ATS), df1 = df_ATS1, df2 = df_ATS2)
   ecdf_WTPS <- ecdf(WTPS)
-  p_valueWTPS <- 1 - ecdf_WTPS(WTS)
+  p_valueWTPS <- 1 - ecdf_WTPS(WTS)   # alternative: mean(as.numeric(WTS) <= WTPS)
   quant_WTPS <- quantile(ecdf_WTPS, alpha)
   
   #---------------------- CIs -------------------------------------#

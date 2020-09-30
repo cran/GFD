@@ -59,8 +59,6 @@ The package provides the Wald-type statistic, a permuted version
   to be very liberal for small sample sizes, we recommend to use the WTPS in these situations.
 }
 \examples{
-GFD(weightgain ~ source * type, data = HSAUR::weightgain, nperm = 1000)
-
 data(startup)
 model <- GFD(Costs ~ company, data = startup, CI.method = "perm")
 summary(model)
@@ -75,4 +73,3 @@ for the Analysis of General Factorial Designs. Journal of Statistical Software, 
 Pauly, M., Brunner, E., Konietschke, F.(2015). Asymptotic Permutation Tests in General Factorial Designs. 
 Journal of the Royal Statistical Society - Series B 77, 461-473.
 }
-

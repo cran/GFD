@@ -44,8 +44,6 @@
 #'  the corresponding p-value.}
 #' 
 #' @examples
-#' GFD(weightgain ~ source * type, data = HSAUR::weightgain, nperm = 1000)
-#' 
 #' data(startup)
 #' model <- GFD(Costs ~ company, data = startup, CI.method = "perm")
 #' summary(model)
@@ -266,7 +264,8 @@ GFD <- function(formula, data = NULL, nperm = 10000,
     output$ATS <- ATS_out
     output$plotting <- list(levels, fac_names, nf, TYPE, mu, lower, upper, fac_names_original, dat2, fl, alpha, nadat2, lev_names)
     names(output$plotting) <- c("levels", "fac_names", "nf", "Type", "mu", "lower", "upper", "fac_names_original", "dat2", "fl", "alpha", "nadat2", "lev_names")
-  }
+    }
   class(output) <- "GFD"
   return(output)
 }
+

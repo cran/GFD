@@ -11,7 +11,7 @@
   \item{dugesia}{number of flatworms counted on a particular stone (in no./dm^2)}
 }}
 \source{
-\url{http://users.monash.edu.au/~murray/AIMS-R-users/ws/ws7.html}
+\url{ https://users.monash.edu.au/~murray/AIMS-R-users/ws/ws7.html}
 }
 \usage{
 data(curdies)
@@ -20,4 +20,3 @@ data(curdies)
 A dataset containing the number of flatworms (dugesia) sampled in two seasons at different sites in the Curdies River in Western Victoria.
 }
 \keyword{datasets}
-

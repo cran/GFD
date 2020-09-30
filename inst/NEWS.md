@@ -1,3 +1,6 @@
+# GFD 0.2.8
+* remove example from HSAUR
+
 # GFD 0.2.5
 * fix degrees of freedom in calculation of confidence intervals
 * add possibility to use permutation quantile in calculation of CIs

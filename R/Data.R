@@ -10,7 +10,7 @@
 #' 
 #' @usage data(startup)
 #' 
-#' @source \url{http://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/owan/frames/frame.html}
+#' @source \url{https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/owan/frames/frame.html}
 "startup"
 
 
@@ -47,5 +47,5 @@
 #' 
 #' @usage data(curdies)
 #' 
-#' @source \url{http://users.monash.edu.au/~murray/AIMS-R-users/ws/ws7.html}
+#' @source \url{ https://users.monash.edu.au/~murray/AIMS-R-users/ws/ws7.html}
 "curdies"

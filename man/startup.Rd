@@ -10,7 +10,7 @@
   \item{company}{company, a factor with levels "pets", "pizza", "gifts", "shoes" and "bakery"}
 }}
 \source{
-\url{http://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/owan/frames/frame.html}
+\url{https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/owan/frames/frame.html}
 }
 \usage{
 data(startup)
@@ -19,4 +19,3 @@ data(startup)
 A dataset containing the startup costs (in thousands of dollars) of five companies.
 }
 \keyword{datasets}
-

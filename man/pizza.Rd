@@ -23,4 +23,3 @@ data(pizza)
 A dataset containing the delivery times for pizza (in minutes) under different conditions.
 }
 \keyword{datasets}
-
