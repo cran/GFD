@@ -1,5 +1,8 @@
+# GFD 0.2.9
+*fix conditional usage of RGtk2
+
 # GFD 0.2.8
-* remove example from HSAUR
+*remove example from HSAUR
 
 # GFD 0.2.5
 * fix degrees of freedom in calculation of confidence intervals
