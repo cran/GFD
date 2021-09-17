@@ -59,3 +59,28 @@ summary.GFD <- function (object, ...) {
   cat("\n", "ANOVA-Type Statistic (ATS):", "\n", sep = "")
   print(object$ATS)
 }
+
+
+#' @export
+print.qanova <- function(x, ...) {
+  if(length(x$input$p) == 1){
+    cat("\n","Variance estimation:", x$input$var_method, "\n", "Test is based on", "the", paste0(paste0(100*x$input$p, "%-",  collapse = ", "), "Quantile."), "\n")
+  }
+  if((length(x$input$p) > 1) && ( identical(x$lin_mat, diag(rep(1, length(x$input$p))) ) )){
+    cat("\n","Variance estimation:", x$input$var_method, "\n", "Test is based on", "the", paste0(paste0(100*x$input$p, "%-",  collapse = ", "), "Quantiles"), "simultaneously.", "\n")
+  }
+  if( (length(x$input$p) > 1) && !( identical(x$lin_mat, diag(rep(1, length(x$input$p))) ) )){
+    cat("\n","Variance estimation:",x$input$var_method, "\n", "Test is based on the linear combination of", "the","\n", paste0(paste0(100*x$input$p, "%-",  collapse = ", "), "Quantiles"), "by the matrix", "\n")
+    print(x$input$lin_mat)
+  }
+  cat("\n","Call:", "\n")
+  print(x$input$formula)
+  
+  cat("\n", "QANOVA: Quantile-based Analysis of Variance:","\n", sep = "")
+  print(x$statistics)
+}
+
+#' @export
+summary.qanova <- function (object, ...) {
+  print(object)
+}
