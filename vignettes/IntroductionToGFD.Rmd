@@ -102,10 +102,6 @@ plot(nested, factor = "season:site", xlab = "site")
 The `GFD` package is equipped with an optional graphical user interface, which is based on `RGtk2`. The GUI may be started in `R` (if `RGtk2` is installed) using the
 command `calculateGUI()`. 
 
-```{r}
-calculateGUI()
-```
-
 The user can specify the data location
 (either directly or via the "load data" button), the formula, the number of permutations and
 the significance level. Additionally, one can specify whether or not headers are

@@ -302,7 +302,7 @@ calculateGUI <- function(){
   RGtk2::gSignalConnect(buttonCancel, "clicked", window$destroy)
   the.buttons$packStart(buttonCancel, fill=F)
   } else {
-  stop("The GUI cannot be used without packages RGtk2.")
+  stop("The GUI cannot be used without package RGtk2.")
 }
 
 }

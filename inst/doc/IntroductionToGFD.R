@@ -21,6 +21,3 @@ plot(model1, factor = "Crust:Coke:Bread", legendpos = "center", main = "Delivery
 plot(model1, factor = "Crust:Coke", legendpos = "topleft", main = "Two-way interaction", xlab = "Coke", col = 3:5, pch = 17)
 plot(nested, factor = "season:site", xlab = "site")
 
-## -----------------------------------------------------------------------------
-calculateGUI()
-

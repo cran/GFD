@@ -1,8 +1,8 @@
 Package: GFD
 Type: Package
 Title: Tests for General Factorial Designs
-Version: 0.3.2
-Date: 2021-09-14
+Version: 0.3.3
+Date: 2022-01-17
 Author: Sarah Friedrich, Frank Konietschke, Markus Pauly, Marc Ditzhaus, Philipp Steinhauer
 Maintainer: Sarah Friedrich <sarah.friedrich@math.uni-augsburg.de>
 Depends: R (>= 3.3)
@@ -22,6 +22,6 @@ RoxygenNote: 6.1.1
 VignetteBuilder: knitr, rmarkdown
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2021-09-17 12:28:33 UTC; sarah
+Packaged: 2022-01-17 17:01:09 UTC; sfriedrich
 Repository: CRAN
-Date/Publication: 2021-09-17 15:30:18 UTC
+Date/Publication: 2022-01-18 07:52:51 UTC

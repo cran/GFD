@@ -1,8 +1,8 @@
-81f27cf8db29017e28d16566db5fa839 *DESCRIPTION
+1f3b5da0f9bfeea4029d79edd791dd78 *DESCRIPTION
 a48a2f8024eb9f018a93a30c0d947e19 *NAMESPACE
 d171ac8c10ec28bf3a88c7fab9ad1af9 *R/Data.R
 c7f63f8804f579ed4b95b89b9258bc96 *R/GFD-function.R
-fdbd5e34091672a7d510a986d1ee6910 *R/GUI.R
+3202902ed4627e168675669365a4a0fe *R/GUI.R
 38367201338db25a20a6199b2e4e102b *R/calculate_statistics.R
 a4a7708dbe258476b224be5abfb6d538 *R/hypo_matrix.R
 4ffd7ec1e34361b23e604c4528057e35 *R/plot_function.R
@@ -18,9 +18,9 @@ deb3a7f90529d4dd8edc429e0ab1b9ec *data/pizza.rda
 3d94de8ebf5da1bd9aefee8bf8e00726 *data/startup.rda
 ebce9bb3f8f73eb358e6d617ffcfed24 *inst/CITATION
 d0f7c8d456d06b42863fe57f65e54501 *inst/NEWS.md
-59ea183d05653e2593ed996b7819e15d *inst/doc/IntroductionToGFD.R
-f34e61532ffaf5954608ed4eefb31deb *inst/doc/IntroductionToGFD.Rmd
-f27a35c85e09b3d2f81ebc1b5d8450dc *inst/doc/IntroductionToGFD.html
+6fce1951dacec16d75ed5ea15445e9ef *inst/doc/IntroductionToGFD.R
+603652e52caf714359c421c19ce1147f *inst/doc/IntroductionToGFD.Rmd
+3a6e0c4fb47da0cf69352174c99131cc *inst/doc/IntroductionToGFD.html
 1110dddffba1ef25b07241c1804b8ac3 *man/GFD.Rd
 b3f4ed4193ec9b0113b83b022213809a *man/GFD_GUI.Rd
 794858393e358bf0ff3f72d6146ce350 *man/QANOVA.Rd
@@ -28,5 +28,5 @@ b3f4ed4193ec9b0113b83b022213809a *man/GFD_GUI.Rd
 1f4de2207921157225946c9336c2de77 *man/curdies.Rd
 cae711bcfcd23ad539b0dc9406e2a098 *man/pizza.Rd
 2719138bd9b6c8f9ca7b88850e8f0281 *man/startup.Rd
-f34e61532ffaf5954608ed4eefb31deb *vignettes/IntroductionToGFD.Rmd
+603652e52caf714359c421c19ce1147f *vignettes/IntroductionToGFD.Rmd
 459962b88db47164b22659de5e2afbfb *vignettes/IntroductionToGFD.md
